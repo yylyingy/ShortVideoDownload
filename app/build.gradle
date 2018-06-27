@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+def keystorePath
+
+def isWindows() {
+    return org.gradle.internal.os.OperatingSystem.current().isWindows()
+}
+
+//区分window和linux的keystore路径
+if (isWindows()) {
+    keystorePath = 'D:\\keystore\\'
+} else {
+    keystorePath = '/opt/keystore/'//tuandai_test.keystore'
+}
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.github.io.shortvideodroplogo"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        defaultSign {
+            keyAlias 'tuandai'
+            keyPassword 'tuandai123888'
+            storeFile file(keystorePath + 'tuandai_test.keystore')
+            storePassword 'tuandai123888'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.defaultSign
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.defaultSign
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+}
