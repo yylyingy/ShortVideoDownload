@@ -1,5 +1,6 @@
 package com.github.io.shortvideodroplogo.douyin;
 
+import com.github.io.shortvideodroplogo.util.FindUrlInString;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -21,8 +22,16 @@ import okhttp3.Response;
 
 public class DouyinHttpRequest {
     public static void get(String url,final DownloadCallback downloadCallback) {
+        List<String> listUrl = FindUrlInString.parse(url);
+        if (listUrl.size() == 0) {
+            downloadCallback.fail("请输入含有正确url的字符串");
+            return;
+        }
         int index = url.indexOf("http");
         url = url.substring(index);
+        if (url.indexOf(" ") > 0) {
+            url = url.substring(0,url.indexOf(" "));
+        }
         OkHttpUtil.get(url,new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
