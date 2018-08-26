@@ -1,7 +1,10 @@
 package com.github.io.shortvideodroplogo.douyin;
 
+import android.text.TextUtils;
+
 import com.github.io.shortvideodroplogo.network.Light;
 import com.github.io.shortvideodroplogo.network.callback.AbstractCallback;
+import com.github.io.shortvideodroplogo.util.FindJsonInString;
 import com.github.io.shortvideodroplogo.util.FindUrlInString;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -46,6 +49,7 @@ public class DouyinParser {
                     System.out.println(body);
                     long time = System.currentTimeMillis();
                     DouyinBean douyinBean = parseDouyinHtml(body);
+//                    List<String> list = FindJsonInString.parse(body);
                     if (douyinBean != null) {
                         String videoid;
                         String[] tmp = douyinBean.getPlayAddr().split("video_id=");
@@ -123,7 +127,7 @@ public class DouyinParser {
                     try {
                         //将这一对花括号进行json解析
                         douyinBean = new Gson().fromJson(findResult, DouyinBean.class);
-                        if (douyinBean != null) {
+                        if (douyinBean != null && !TextUtils.isEmpty(douyinBean.getPlayAddr())) {
                             //解析成功
                             return douyinBean;
                         }
