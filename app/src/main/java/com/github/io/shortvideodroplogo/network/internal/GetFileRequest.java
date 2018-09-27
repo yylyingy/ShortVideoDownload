@@ -22,13 +22,13 @@ public class GetFileRequest extends BaseLightRequest {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
                     byte[] buf = new byte[4096];
-                    byte[]bytes = response.body().bytes();
+                    InputStream inputStream = response.body().byteStream();
                     int index;
                     String path = mSavePath;
                     File file = new File(path);
                     FileOutputStream mDstOutputStream = new FileOutputStream(file);
-                    while ((index = response.body().byteStream().read(buf)) != -1) {
-                        mDstOutputStream.write(bytes,0,index);
+                    while ((index = inputStream.read(buf)) != -1) {
+                        mDstOutputStream.write(buf,0,index);
                     }
                     mDstOutputStream.close();
                     response.close();
