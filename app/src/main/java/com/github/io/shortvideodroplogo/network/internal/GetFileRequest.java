@@ -21,10 +21,15 @@ public class GetFileRequest extends BaseLightRequest {
             Response response = call.execute();
             if (response.isSuccessful()) {
                 if (response.body() != null) {
+                    byte[] buf = new byte[4096];
                     byte[]bytes = response.body().bytes();
+                    int index;
                     String path = mSavePath;
-                    FileOutputStream mDstOutputStream = new FileOutputStream(path);
-                    mDstOutputStream.write(bytes);
+                    File file = new File(path);
+                    FileOutputStream mDstOutputStream = new FileOutputStream(file);
+                    while ((index = response.body().byteStream().read(buf)) != -1) {
+                        mDstOutputStream.write(bytes,0,index);
+                    }
                     mDstOutputStream.close();
                     response.close();
                 }
