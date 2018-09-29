@@ -10,6 +10,7 @@
 
     <EditText
         android:id="@+id/url"
+        android:hint="输入需要解析的包含视频链接的文本"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button

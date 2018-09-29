@@ -7,6 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -27,11 +28,7 @@ public class DouyinHttpRequest {
             downloadCallback.fail("请输入含有正确url的字符串");
             return;
         }
-        int index = url.indexOf("http");
-        url = url.substring(index);
-        if (url.indexOf(" ") > 0) {
-            url = url.substring(0,url.indexOf(" "));
-        }
+        url = listUrl.get(0);
         OkHttpUtil.get(url,new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
